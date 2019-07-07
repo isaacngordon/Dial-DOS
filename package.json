@@ -1,0 +1,15 @@
+{
+  "name": "dialdos",
+  "version": "1.0.0",
+  "description": "Prank your friends by calling there phones repeatedly, using the Twilio API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.20.0",
+    "twilio": "^3.33.0"
+  }
+}
