@@ -1,42 +1,65 @@
-// Download the helper library from https://www.twilio.com/docs/node/install
-// Your Account Sid and Auth Token from twilio.com/console
-// DANGER! This is insecure. See http://twil.io/secure
+
+//api creds from enviornment varibles and set twilio api client
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 const twilioClient = require('twilio')(accountSid, authToken);
-const program = require('commander');
 
-program.option('-n, --number <1232343432>', 'Number to call');
+//cli flags set
+const program = require('commander');                                               //node module
+program.option('-n, --number <2223334444>', 'Number to call');                      //phone number to call
+program.option('-releaseEvents, --repeat, <int>', 'number of times to call', 1);    //default number of calls to 1
+
+//spin up server
+const app = require('./app');
+//app.init();
+app.setSay('Hello you fool. What a pleasent day to be coding a piece of shit application.')
+
+//parse flags
 program.parse(process.argv);
-console.log('Number to call: %s', program.number);
 
+//init start time
 var startTime = new Date().getTime();
+console.log('Start Time: %s', startTime);
 
-for(let i = 0; i < 3; i++){
-	call(program.number);
-}
+//make n twilio calls to program.number 
+var calls_made = 0;
+var calls_completed = 0;
+for(let i = program.repeat; i > 0; i--){
+    //set listener for call completions
+    var go = false;
+    app.rooster.on('completed', (sid) => {
+        go = true;
+        console.log('Call Complete. SID: %s', sid)
+        calls_completed++;
+    });
 
-var endTime = (new Date().getTime()) - startTime;
-console.log('Total runtime: %s', endTime);
-
-
-function call(number){
-  twilioClient.calls
+    //make call
+    twilioClient.calls
       .create({
          url: 'http://demo.twilio.com/docs/voice.xml',
-         to: '+1' + number,
-         from: '+18628002438'
+         to: '+1' + program.number,
+         from: '+18628002438',
+         statusCallback: 'http://b5716caf.ngrok.io/callback',
+         statusCallbackMethod: 'POST',
+         statusCallbackEvent: ['completed']
        })
       .then((call) => {
-	 console.log('Calling %s, Call ID: %s', number, call.sid);
-	 sleep(10000);
+        console.log('Calling %s, Call ID: %s', program.number, call.sid);
+        calls_made++;
        });
-
-}
-
-function sleep(time) {
-    var stop = new Date().getTime();
-    while(new Date().getTime() < stop + time) {
+    
+    //wait until above call is completed before completing loop iteration
+    while(!go){
         ;
     }
-}
+}  
+
+//log end times
+var endTime = new Date().getTime();
+console.log('End Time: %s', endTime)
+console.log('Total runtime: %s', endTime - startTime);
+console.log('Calls Made - %s, Calls Completed - %s', calls_made, calls_completed);
+

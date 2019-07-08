@@ -1,0 +1,5 @@
+<?xml version = "1.0" encoding = "utf-8">
+<Response>
+    <Say voice="alice">${obj.say}</Say>
+    <Play>http://demo.twilio.com/docs/classic.mp3</Play>
+</Response>
