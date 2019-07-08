@@ -30,11 +30,7 @@ var calls_completed = 0;
 for(let i = program.repeat; i > 0; i--){
     //set listener for call completions
     var go = false;
-    app.rooster.on('completed', (sid) => {
-        go = true;
-        console.log('Call Complete. SID: %s', sid)
-        calls_completed++;
-    });
+    
 
     //make call
     twilioClient.calls
@@ -42,24 +38,29 @@ for(let i = program.repeat; i > 0; i--){
          url: 'http://demo.twilio.com/docs/voice.xml',
          to: '+1' + program.number,
          from: '+18628002438',
-         statusCallback: 'http://b5716caf.ngrok.io/callback',
+         statusCallback: 'http://cd4cbd46.ngrok.io/callback',
          statusCallbackMethod: 'POST',
          statusCallbackEvent: ['completed']
        })
       .then((call) => {
         console.log('Calling %s, Call ID: %s', program.number, call.sid);
         calls_made++;
+       }, (err) =>{
+            console.log(err);    
        });
     
     //wait until above call is completed before completing loop iteration
     while(!go){
-        ;
+        app.rooster.on('completed',(sid) => {
+            go = true;
+            console.log('Call Complete. SID: %s', sid)
+            calls_completed++;
+        });
     }
 }  
 
 //log end times
 var endTime = new Date().getTime();
-console.log('End Time: %s', endTime)
-console.log('Total runtime: %s', endTime - startTime);
+console.log('Total runtime: %s seconds', endTime - startTime);
 console.log('Calls Made - %s, Calls Completed - %s', calls_made, calls_completed);
 
