@@ -1,5 +1,4 @@
 <?xml version = "1.0" encoding = "utf-8">
 <Response>
-    <Say voice="alice"> Well hello there you fool. </Say>
-    <Play>http://demo.twilio.com/docs/classic.mp3</Play>
+    <Say voice="alice"> Well hello there you fool. Why do you even bother to pick up the phone? </Say>
 </Response>
