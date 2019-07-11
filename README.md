@@ -27,12 +27,14 @@ npm install
 <img src='./50-53.png'>
 4. Make sure your TwiML file is being pointed to, at app.js line 26. To learn about TwiML, see the Twilio documentation. 
 <img src= './app.png'>
-5. Run from the command line with appropriate flags. 
+5. Run from the command line with appropriate flags:
+
 ```bash
 -n --number, required, 10 digit US number no hyphens ex 8001234567
 -r --repeat, defaults to 1, number of phone calls to be placed
 example$ node call.js -n 1234567654 -r 5
 ``` 
+
 6. Press `Ctrl + C` to cancel the program and remaining queued calls. 
 
 ---
