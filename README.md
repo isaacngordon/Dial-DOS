@@ -32,7 +32,7 @@ npm install
 -n --number, required, 10 digit US number no hyphens ex 8001234567
 -r --repeat, defaults to 1, number of phone calls to be placed
 example$ node call.js -n 1234567654 -r 5
-```
+``` 
 6. Press `Ctrl + C` to cancel the program and remaining queued calls. 
 
 ---
