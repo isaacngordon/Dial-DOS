@@ -33,14 +33,6 @@ router.post('/callscript', function(req, res){
 app.use('/', router);
 app.listen(80);
 
-function compileXML(){
-    return `<?xml version = "1.0" encoding = "utf-8">
-    <Response>
-    <Say voice="alice">${obj.say}</Say>
-    <Play>http://demo.twilio.com/docs/classic.mp3</Play>
-    </Response>`
-}
-
 module.exports = {
     setSay: (str) => obj.say = str,
     setPlay: (path) => obj.play = path,
