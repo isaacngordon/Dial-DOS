@@ -1,7 +1,7 @@
 # DialDOS - A Prank Script
 This NodeJS script calls a given phone number _n_ times, and uses the Twilio Programmatic Voice API to handle phone calls. 
 
-## Prerequsites
+## Prerequisites
 - Node v8.16.0
 - NPM v6.4.1 
 - Ngrok or other exposed HTTP endpoint
